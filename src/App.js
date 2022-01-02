@@ -2,44 +2,22 @@ import { useState } from 'react';
 import './App.css';
 import Login from './components/Login';
 import Chat from './components/Chat';
+import logo from './images/logo.png'
 
 function randomColor() {
   return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
 }
 let drone = '';
 let membersArr = [];
-let roomNameData = '';
-let roomPasswordData = '';
-let roomsArr = [];
+let historyArr = [];
 
 function App() {
   const [messages, setMessages] = useState([]);
-  const [currentMember, setCurrentMember] = useState({username:'user', color: randomColor()})
+  const [currentMember, setCurrentMember] = useState({username:'user', color:randomColor()})
   const [isChatActive, setIsChatActive] = useState(false);
   const [members, setMembers] = useState([]);
-  const [roomName, setRoomName] = useState('');
-  const [roomPassword, setRoomPasword] = useState('');
-  const [rooms, setRooms] = useState([]);
+  const [historyMessages, setHistoryMessages] = useState([]);
 
-  const handleRoomName = (nameOfRoom) =>{
-    roomNameData = 'observable-' + nameOfRoom.toLowerCase();
-    setRoomName(roomNameData);
-  }
-
-  const handleRoomPassword = (passOfRoom) =>{
-    roomPasswordData = passOfRoom;
-    setRoomPasword(roomPasswordData);
-  }
-
-  const addRoom = (nameOfRoom, passOfRoom) =>{
-    let newRoom = {nameOfRoom, passOfRoom};
-    roomsArr = rooms;
-    roomsArr.push(newRoom);
-    setRooms(roomsArr);
-    console.log(rooms);
-    console.log(roomName, roomPassword);
-
-  }
  
   const passUsername = (username) =>{
  
@@ -58,7 +36,6 @@ function App() {
     const member = {...user};
     member.id = drone.clientId;
     setCurrentMember(member);
-    console.log('spojeno' + drone.clientId)
 
   });
   const room = drone.subscribe("observable-room",{
@@ -71,8 +48,10 @@ function App() {
     setMessages(allMessagesArray);
   });
 
-  room.on('history_message', ({txt,data}) => {
-    console.log(txt,data);
+  room.on('history_message', ({data}) => {
+    historyArr.push(data);
+    let historyMessagesArr = [...historyArr]
+    setHistoryMessages(historyMessagesArr);
   });
 
   // List of currently online members, emitted once
@@ -110,8 +89,12 @@ function App() {
 
   return (
     <div className="App">
-      {!isChatActive && <Login passUsername={passUsername} passRoomName={handleRoomName} passRoomPassword={handleRoomPassword} roomName={roomName} roomPassword={roomPassword} addRoom={addRoom} rooms={rooms}/>}
-      {isChatActive && currentMember.id && <Chat messages={messages} currentMember = {currentMember} onSendMessage={onSendMessage} members={members} roomName={roomName} roomPassword={roomPassword}/>}
+      <header className='app-header'>
+        <h1 className='app-title'>My Chat App</h1>
+        <img src={logo} alt='messenger' className='logo'/>
+      </header>
+      {!isChatActive && <Login passUsername={passUsername} />}
+      {isChatActive && currentMember.id && <Chat messages={messages} currentMember = {currentMember} onSendMessage={onSendMessage} members={members} historyMessages={historyMessages}/>}
     </div>
   );
 }

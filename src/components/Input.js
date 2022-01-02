@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const Input = ({onSendMessage}) =>{
     const [text, setText] = useState('');
@@ -17,8 +19,10 @@ const Input = ({onSendMessage}) =>{
     return(
         <article className="input-section">
             <form onSubmit={handleSubmit}>
-                <input type='text' placeholder="Enter your message and press ENTER" autoFocus={true} value={text} onChange={handleChange}></input>
-                <button type="submit">Send</button>
+                <input type='text' placeholder="Message" className="message-input" autoFocus={true} value={text} onChange={handleChange}></input>
+                <button type="submit" className="send-message-btn">
+                                 <FontAwesomeIcon icon={faPaperPlane} />
+                </button>
             </form>
         </article>
     )
