@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Messages from "./Messages";
 import Input from "./Input";
 
-const Chat = ({messages, currentMember, onSendMessage, members, historyMessages}) =>{
+const Chat = ({messages, currentMember, onSendMessage, members, historyMessages, changeLikeState}) =>{
     
 
     return(
@@ -19,7 +19,7 @@ const Chat = ({messages, currentMember, onSendMessage, members, historyMessages}
             </ul>
             </div>
             <div className="chat-area">
-            <Messages messages={messages} currentMember={currentMember} historyMessages={historyMessages}/>
+            <Messages messages={messages} currentMember={currentMember} historyMessages={historyMessages} changeLikeState={changeLikeState}/>
             <Input onSendMessage={onSendMessage}/>
             </div>
         </section>

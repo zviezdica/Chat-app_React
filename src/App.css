@@ -216,3 +216,15 @@ li {
   margin-left: 1rem;
   cursor: pointer;
 }
+
+.heart {
+  cursor: pointer;
+}
+
+.grey-heart {
+  color: rgb(163, 163, 163);
+}
+
+.red-heart {
+  color: red;
+}

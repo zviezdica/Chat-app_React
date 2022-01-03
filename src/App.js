@@ -39,16 +39,17 @@ function App() {
 
   });
   const room = drone.subscribe("observable-room",{
-  historyCount: 10 // ask for the 100 latest messages from history
+  historyCount: 10 
 });
   room.on('message', message => {
     let allMessages = messages;
-    allMessages.push({text: message.data, member:message.member, time:message.timestamp});
+    allMessages.push({text: message.data, member:message.member, time:message.timestamp, id:message.id, messageLiked: false});
     let allMessagesArray = [...allMessages]
     setMessages(allMessagesArray);
   });
 
   room.on('history_message', ({data}) => {
+    console.log(data)
     historyArr.push(data);
     let historyMessagesArr = [...historyArr]
     setHistoryMessages(historyMessagesArr);
@@ -87,6 +88,19 @@ function App() {
     });
   }
 
+  const handleLikeState = (likeState, messageId) =>{
+    let allMessages = messages;
+    allMessages.forEach((message)=>{
+      if(message.id===messageId){
+        message.messageLiked=likeState;
+      }
+    })
+
+    setMessages(allMessages);
+    console.log(allMessages);
+    console.log(messages);
+  }
+
   return (
     <div className="App">
       <header className='app-header'>
@@ -94,7 +108,7 @@ function App() {
         <img src={logo} alt='messenger' className='logo'/>
       </header>
       {!isChatActive && <Login passUsername={passUsername} />}
-      {isChatActive && currentMember.id && <Chat messages={messages} currentMember = {currentMember} onSendMessage={onSendMessage} members={members} historyMessages={historyMessages}/>}
+      {isChatActive && currentMember.id && <Chat messages={messages} currentMember = {currentMember} onSendMessage={onSendMessage} members={members} historyMessages={historyMessages} changeLikeState = {handleLikeState}/>}
     </div>
   );
 }
