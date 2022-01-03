@@ -159,6 +159,7 @@ li {
   width: fit-content;
   max-width: 500px;
   word-wrap: break-word;
+  font-weight: 400;
 }
 
 .history-message {
@@ -178,15 +179,40 @@ li {
 
 .other-member {
   color: aliceblue;
-  background-color: rgb(55, 56, 56);
+  background-color: rgb(78, 78, 78);
+}
+
+.message-time {
+  color: aliceblue;
+  font-size: 0.7rem;
+  margin: 0 0 0 auto;
+  width: fit-content;
+  font-weight: 300;
 }
 
 /*INPUT AREA*/
+.input-section {
+  margin-top: 0.5rem;
+  background-color: rgb(41, 114, 224);
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+
 .message-input {
-  margin: 1rem auto 0 2rem;
+  margin: auto;
+  margin-left: 2rem;
   width: 300px;
   padding: 0.2rem;
   font-size: 1rem;
   border: none;
   border-radius: 5px;
+}
+
+.send-message-btn {
+  border: none;
+  background-color: transparent;
+  transform: scale(1.5);
+  margin-left: 1rem;
+  cursor: pointer;
 }

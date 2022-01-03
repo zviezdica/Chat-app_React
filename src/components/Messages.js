@@ -1,7 +1,12 @@
 import React from "react";
-import { useState } from "react/cjs/react.development";
+import { useState, useRef, useEffect } from "react/cjs/react.development";
 
 const Messages = ({messages, currentMember, historyMessages}) =>{
+    const divRef = useRef(null);
+    useEffect(() => {
+    divRef.current.scrollIntoView({ behavior: 'smooth' });
+    });
+
     console.log(messages);
     let i = 0
     let j = 0
@@ -29,12 +34,12 @@ const Messages = ({messages, currentMember, historyMessages}) =>{
                         <li className = {className} key={i}>
                             <h4 className="user-name" style={{color:member.clientData.color}}>{member.clientData.username}</h4>
                             <p className="message-text">{text}</p>
+                            <h5 className="message-time">{new Date(message.time*1000).toLocaleString()}</h5>
                         </li>
                     )
-
                 })}
             </ul>
-
+            <div ref={divRef} />
         </article>
     )
 }

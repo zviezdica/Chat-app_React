@@ -41,9 +41,9 @@ function App() {
   const room = drone.subscribe("observable-room",{
   historyCount: 10 // ask for the 100 latest messages from history
 });
-  room.on('data', (data, member) => {
+  room.on('message', message => {
     let allMessages = messages;
-    allMessages.push({text: data, member});
+    allMessages.push({text: message.data, member:message.member, time:message.timestamp});
     let allMessagesArray = [...allMessages]
     setMessages(allMessagesArray);
   });
