@@ -36,6 +36,16 @@ body {
 }
 
 /*LOGIN SECTION*/
+.username-warning {
+  background-color: rgb(247, 110, 110);
+  padding: 0.2rem;
+  text-align: center;
+  width: 300px;
+  font-size: 0.8rem;
+  position: absolute;
+  left: 40vw;
+  border-radius: 8px;
+}
 .login-section {
   width: 400px;
   height: 200px;

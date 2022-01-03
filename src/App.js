@@ -17,9 +17,11 @@ function App() {
   const [isChatActive, setIsChatActive] = useState(false);
   const [members, setMembers] = useState([]);
   const [historyMessages, setHistoryMessages] = useState([]);
+  const [usernameProvided, setUsernameProvided] = useState('none');
 
  
   const passUsername = (username) =>{
+    if (username){
  
     const user = {...currentMember, username:username}
     setCurrentMember(user);
@@ -78,7 +80,12 @@ function App() {
     membersArr=[...newMembers]
     setMembers(membersArr)
   });
-
+  }else{
+    setUsernameProvided(false);
+    setTimeout(() => {
+    setUsernameProvided(true)
+  }, 1500);
+  }
 }
 
   const onSendMessage = (text) =>{
@@ -107,6 +114,7 @@ function App() {
         <h1 className='app-title'>My Chat App</h1>
         <img src={logo} alt='messenger' className='logo'/>
       </header>
+      {!usernameProvided && <p className='username-warning'>Please add username</p> }
       {!isChatActive && <Login passUsername={passUsername} />}
       {isChatActive && currentMember.id && <Chat messages={messages} currentMember = {currentMember} onSendMessage={onSendMessage} members={members} historyMessages={historyMessages} changeLikeState = {handleLikeState}/>}
     </div>

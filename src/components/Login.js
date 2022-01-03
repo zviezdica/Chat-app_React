@@ -11,6 +11,7 @@ const Login = ({passUsername}) =>{
 
     const handleClick = () =>{
         passUsername(username);
+        
     }
 
     return(
