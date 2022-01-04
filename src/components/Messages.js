@@ -1,14 +1,14 @@
 import React from "react";
-import { useState, useRef, useEffect } from "react/cjs/react.development";
-import Message from "./Message";
+import {useRef, useEffect} from "react/cjs/react.development";
+import {Message} from "../components";
 
 const Messages = ({messages, currentMember, historyMessages, changeLikeState}) =>{
+    let i = 0
     const divRef = useRef(null);
     useEffect(() => {
     divRef.current.scrollIntoView({ behavior: 'smooth' });
     });
 
-    let i = 0
     return(
         <article className="messages-section">
             <ul className="history-messages">
@@ -24,10 +24,9 @@ const Messages = ({messages, currentMember, historyMessages, changeLikeState}) =
                     return(
                         <Message message={message} key={message.id} currentMember={currentMember} changeLikeState={changeLikeState}/>
                     )
-                    
                 })}
             </ul>
-            <div ref={divRef} />
+            <div ref={divRef}/>
         </article>
     )
 }

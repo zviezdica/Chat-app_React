@@ -21,7 +21,7 @@ const Input = ({onSendMessage}) =>{
             <form onSubmit={handleSubmit}>
                 <input type='text' placeholder="Message" className="message-input" autoFocus={true} value={text} onChange={handleChange}></input>
                 <button type="submit" className="send-message-btn">
-                                 <FontAwesomeIcon icon={faPaperPlane} />
+                    <FontAwesomeIcon icon={faPaperPlane} />
                 </button>
             </form>
         </article>

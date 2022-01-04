@@ -22,12 +22,12 @@ class Login extends React.Component{
     render(){
         return(
             <section className='login-section'>
-            <article className='username-section'>
-                <label htmlFor='username' className='username-label'>Username:</label>
-                <input name='username' id='username' value={this.state.username} onChange={this.handleUsername} className='username-input'/>
-            </article>
-             <button type='button' onClick={this.handleClick} className='login-btn'>Log in</button>
-        </section>
+                <article className='username-section'>
+                    <label htmlFor='username' className='username-label'>Username:</label>
+                    <input name='username' id='username' value={this.state.username} onChange={this.handleUsername} className='username-input' autoFocus={true}/>
+                </article>
+                <button type='button' onClick={this.handleClick} className='login-btn'>Log in</button>
+            </section>
         )
     }
 }
