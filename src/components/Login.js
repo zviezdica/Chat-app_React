@@ -1,29 +1,36 @@
-import React, { useState } from 'react';
+import React from "react";
 
+class Login extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            username: ''
+        }
+        this.handleUsername = this.handleUsername.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
 
-const Login = ({passUsername}) =>{
-    const [username, setUsername] = useState('');
-
-    const handleUsername = (e) =>{
+    handleUsername = (e) =>{
         const username = e.target.value;
-        setUsername(username);
+        this.setState({username: username})
     }
 
-    const handleClick = () =>{
-        passUsername(username);
-        
+    handleClick = () =>{
+        this.props.passUsername(this.state.username);
     }
 
-    return(
-        <section className='login-section'>
+    render(){
+        return(
+            <section className='login-section'>
             <article className='username-section'>
                 <label htmlFor='username' className='username-label'>Username:</label>
-                <input name='username' id='username' value={username} onChange={handleUsername} className='username-input'/>
+                <input name='username' id='username' value={this.state.username} onChange={this.handleUsername} className='username-input'/>
             </article>
-             <button type='button' onClick={handleClick} className='login-btn'>Log in</button>
-
+             <button type='button' onClick={this.handleClick} className='login-btn'>Log in</button>
         </section>
-    )
+        )
+    }
 }
 
 export default Login;
+
