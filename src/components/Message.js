@@ -3,6 +3,7 @@ import {useState, useEffect} from "react/cjs/react.development";
 
 const Message = ({message, currentMember, changeLikeState}) =>{
     const [isLiked, setIsLiked] = useState(message.messageLiked);
+    console.log(isLiked);
 
     useEffect(()=>{
         const likeState = isLiked;
@@ -18,7 +19,8 @@ const Message = ({message, currentMember, changeLikeState}) =>{
             <h4 className="user-name" style={{color:member.clientData.color}}>{member.clientData.username}</h4>
             <p className="message-text">{text}</p>
             <h5 className="message-time">{new Date(message.time*1000).toLocaleString()}</h5>
-            <span className={isLiked? "red-heart heart" : "grey-heart heart"} onClick={()=>setIsLiked(!isLiked)}>&#10084;</span> 
+            {isLiked && <span className="red-heart heart">&#10084;</span> }
+            {!isLiked && <span className={message.messageLiked? "red-heart heart" : "grey-heart heart"} style={myMessage? {cursor:"default"} : {cursor:"pointer"}} onClick={myMessage? ()=>setIsLiked( isLiked ) : ()=>setIsLiked( !isLiked ) }>&#10084;</span> }
         </li>
     )
 }

@@ -7,6 +7,7 @@ let drone = '';
 // Global variables used because otherwise React renders old/wrong values
 let membersArr = [];
 let historyArr = [];
+let likedArr = [];
 
 // Random color for each user
 function randomColor() {
@@ -20,6 +21,7 @@ function App() {
   const [members, setMembers] = useState([]);
   const [historyMessages, setHistoryMessages] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [likedMessages, setLikedMessages] = useState([]);
   
   //username provided in Login component
   const passUsername = (username) =>{
@@ -46,15 +48,27 @@ function App() {
   
   //incoming message
   room.on('message', message => {
+    let incomingLikedMessages = message.data.liked;
+    let likedMessagesArr = likedMessages;
+    incomingLikedMessages.forEach((incomingLikedMessage) =>{
+      likedMessagesArr.push(incomingLikedMessage);
+    })
     let allMessages = messages;
-    allMessages.push({text: message.data, member:message.member, time:message.timestamp, id:message.id, messageLiked: false});
-    let allMessagesArray = [...allMessages]
+    allMessages.forEach((previousMessage)=>{
+      likedMessagesArr.forEach((likedMessage) =>{
+        if(likedMessage.messageId===previousMessage.id){
+          previousMessage.messageLiked=likedMessage.likeState;
+        }
+      })
+    })
+    allMessages.push({text: message.data.text, member:message.member, time:message.timestamp, id:message.id, messageLiked: false});
+    let allMessagesArray = [...allMessages];
     setMessages(allMessagesArray);
   });
 
-  //history messages
+  // //history messages
   room.on('history_message', ({data}) => {
-    historyArr.push(data);
+    historyArr.push(data.text);
     let historyMessagesArr = [...historyArr]
     setHistoryMessages(historyMessagesArr);
   });
@@ -92,14 +106,6 @@ function App() {
   }
 }
 
-//sending message
-const onSendMessage = (text) =>{
-  drone.publish({
-    room: "observable-room",
-    message: text
-  });
-}
-
 //if message is liked
 const handleLikeState = (likeState, messageId) =>{
   let allMessages = messages;
@@ -109,6 +115,27 @@ const handleLikeState = (likeState, messageId) =>{
     }
   })
   setMessages(allMessages);
+  let likedMessagesArr = likedMessages;
+  let filteredMessages = likedMessagesArr.filter(message => message.messageId != messageId);
+  if (likeState===true){
+    filteredMessages.push({messageId, likeState});
+    likedArr = [...filteredMessages]
+    setLikedMessages(likedArr);
+  }
+  else{
+    likedArr = [...filteredMessages];
+    setLikedMessages(likedArr);
+  }
+}
+
+//sending message
+const onSendMessage = (text) =>{
+  drone.publish({
+    room: "observable-room",
+    message: {text:text,
+              liked:[...new Set(likedMessages)]}
+  });
+  setLikedMessages([]);
 }
 
 return (
@@ -119,7 +146,8 @@ return (
     </header>
     {!usernameProvided && <p className='username-warning'>Please add username</p>}
     {!isChatActive && <Login passUsername={passUsername} />}
-    {isChatActive && usernameProvided && <Chat messages={messages} currentMember = {currentMember} onSendMessage={onSendMessage} members={members} historyMessages={historyMessages} changeLikeState = {handleLikeState}/>}
+    {isChatActive && usernameProvided && <Chat messages={messages} currentMember = {currentMember} onSendMessage={onSendMessage} members={members}  changeLikeState = {handleLikeState} historyMessages={historyMessages}/>}
+    
   </div>
 );
 }

@@ -3,6 +3,7 @@ import {useRef, useEffect} from "react/cjs/react.development";
 import {Message} from "../components";
 
 const Messages = ({messages, currentMember, historyMessages, changeLikeState}) =>{
+    
     let i = 0
     const divRef = useRef(null);
     useEffect(() => {

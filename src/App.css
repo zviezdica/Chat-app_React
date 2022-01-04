@@ -167,10 +167,12 @@ li {
   margin: 1rem 0.5rem 0 auto;
   color: aliceblue;
   background-color: rgb(94, 182, 253);
+  border-top-right-radius: 0;
 }
 .other-member {
   color: aliceblue;
   background-color: rgb(78, 78, 78);
+  border-top-left-radius: 0;
 }
 .message-time {
   color: aliceblue;
@@ -204,11 +206,10 @@ li {
   margin-left: 1rem;
   cursor: pointer;
 }
-.heart {
-  cursor: pointer;
-}
+
 .grey-heart {
   color: rgb(163, 163, 163);
+  cursor: pointer;
 }
 .red-heart {
   color: red;
