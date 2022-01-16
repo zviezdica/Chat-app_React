@@ -129,6 +129,7 @@ const handleLikeState = (likeState, messageId) =>{
 }
 
 //sending message
+//like is sent via send message - after user hits like(s), it is sent to server (and other users) with next message he sends 
 const onSendMessage = (text) =>{
   drone.publish({
     room: "observable-room",
