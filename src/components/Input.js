@@ -12,8 +12,10 @@ const Input = ({onSendMessage}) =>{
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        onSendMessage(text);
-        setText('');
+        if(text){
+            onSendMessage(text);
+            setText('');
+        }
     }
 
     return(
